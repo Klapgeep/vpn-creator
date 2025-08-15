@@ -1,0 +1,30 @@
+# Compiled binaries
+vpn-server
+vpn-client
+*.exe
+
+# Object files
+*.o
+*.obj
+
+# Build directories
+build/
+dist/
+
+# Keys and certificates
+*.key
+*.pem
+*.crt
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
