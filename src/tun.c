@@ -1,4 +1,21 @@
 #include "vpn.h"
+
+#ifdef _WIN32
+#include <windows.h>
+#include <winioctl.h>
+#include <iphlpapi.h>
+
+// Windows TAP interface functions (defined in windows_tap.c)
+extern int create_tap_interface_windows(void);
+extern int configure_tap_interface(HANDLE tap_fd, const char *local_ip, const char *remote_ip, const char *netmask);
+
+int create_tun_interface(const char *dev_name) {
+    printf("Creating Windows TAP interface...\n");
+    return create_tap_interface_windows();
+}
+
+#else
+// Linux/Unix TUN interface
 #include <fcntl.h>
 #include <sys/ioctl.h>
 #include <linux/if.h>
@@ -31,15 +48,5 @@ int create_tun_interface(const char *dev_name) {
     
     printf("TUN interface %s created\n", ifr.ifr_name);
     return fd;
-}
-
-// Windows-specific TUN interface creation (placeholder)
-#ifdef _WIN32
-int create_tun_interface_windows(const char *dev_name) {
-    // Windows TAP-Win32 adapter implementation would go here
-    // This requires the TAP-Win32 driver to be installed
-    printf("Windows TUN interface creation not yet implemented\n");
-    printf("Please install TAP-Win32 adapter for Windows support\n");
-    return -1;
 }
 #endif
